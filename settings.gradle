@@ -1,0 +1,12 @@
+include 'config'
+include 'cart'
+include 'category'
+include 'config'
+include 'customer-authentication'
+include 'customer-info'
+include 'inventory'
+include 'order'
+include 'payment'
+include 'product'
+include 'producttype'
+

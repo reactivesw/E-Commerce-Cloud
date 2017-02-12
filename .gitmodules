@@ -1,0 +1,30 @@
+[submodule "config"]
+	path = config
+	url = https://github.com/reactivesw/config.git
+[submodule "producttype"]
+	path = producttype
+	url = https://github.com/reactivesw/producttype.git
+[submodule "product"]
+	path = product
+	url = https://github.com/reactivesw/product.git
+[submodule "payment"]
+	path = payment
+	url = https://github.com/reactivesw/payment.git
+[submodule "order"]
+	path = order
+	url = https://github.com/reactivesw/order.git
+[submodule "inventory"]
+	path = inventory
+	url = https://github.com/reactivesw/inventory.git
+[submodule "category"]
+	path = category
+	url = https://github.com/reactivesw/category.git
+[submodule "cart"]
+	path = cart
+	url = https://github.com/reactivesw/cart.git
+[submodule "customer-info"]
+	path = customer-info
+	url = https://github.com/reactivesw/customer-info.git
+[submodule "customer-authentication"]
+	path = customer-authentication
+	url = https://github.com/reactivesw/customer-authentication.git
