@@ -28,3 +28,6 @@
 [submodule "customer-authentication"]
 	path = customer-authentication
 	url = https://github.com/reactivesw/customer-authentication.git
+[submodule "base"]
+	path = base
+	url = https://github.com/reactivesw/base.git
