@@ -38,7 +38,6 @@ Step two: config the config-service, and then start up the config-service.(just 
 Step three: run the service you need.
 
 
-
 # 5, Features
 
 ## 5.1, The techniques we choose
