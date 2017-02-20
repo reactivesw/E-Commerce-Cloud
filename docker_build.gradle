@@ -6,7 +6,7 @@ task buildDocker(type: Docker, dependsOn: [build]) {
   applicationName = jar.baseName
   tagVersion = jar.version
 
-  maintainer = 'umasuo <liuquan89@gmail.com>'
+  maintainer = 'reactivesw <dev@reactivesw.com>'
 
   baseImage='frolvlad/alpine-oraclejdk8:slim'
   volume '/tmp'
