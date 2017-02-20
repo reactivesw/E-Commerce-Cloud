@@ -1,4 +1,6 @@
 # 1, E-Commerce-Cloud
+[![Build Status](https://travis-ci.org/reactivesw/E-Commerce-Cloud.svg?branch=master)](https://travis-ci.org/reactivesw/E-Commerce-Cloud)
+
 e-commerce cloud.
 
 # 2, Repo status
