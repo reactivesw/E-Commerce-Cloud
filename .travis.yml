@@ -21,4 +21,4 @@ after_success:
   docker push reactivesw/order;
   docker push reactivesw/payment;
   docker push reactivesw/product;
-  docker push reactivesw/producttype;
+  docker push reactivesw/product-type;
