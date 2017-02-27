@@ -10,7 +10,15 @@ spec:
         backend:
           serviceName: cart
           servicePort: 80
+      - path: /carts
+        backend:
+          serviceName: cart
+          servicePort: 80
       - path: /categories/*
+        backend:
+          serviceName: category
+          servicePort: 80
+      - path: /categories
         backend:
           serviceName: category
           servicePort: 80
@@ -18,7 +26,15 @@ spec:
         backend:
           serviceName: customer-authentication
           servicePort: 80
+      - path: /auth
+        backend:
+          serviceName: customer-authentication
+          servicePort: 80
       - path: /customers/*
+        backend:
+          serviceName: customer-info
+          servicePort: 80
+      - path: /customers
         backend:
           serviceName: customer-info
           servicePort: 80
@@ -26,7 +42,15 @@ spec:
         backend:
           serviceName: inventory
           servicePort: 80
+      - path: /inventory
+        backend:
+          serviceName: inventory
+          servicePort: 80
       - path: /orders/*
+        backend:
+          serviceName: order
+          servicePort: 80
+      - path: /orders
         backend:
           serviceName: order
           servicePort: 80
@@ -34,7 +58,15 @@ spec:
         backend:
           serviceName: payment
           servicePort: 80
+      - path: /payments
+        backend:
+          serviceName: payment
+          servicePort: 80
       - path: /products/*
+        backend:
+          serviceName: product
+          servicePort: 80
+      - path: /products
         backend:
           serviceName: product
           servicePort: 80
@@ -42,7 +74,7 @@ spec:
         backend:
           serviceName: product-type
           servicePort: 80
-      - path: /test/*
+      - path: /product-types
         backend:
-          serviceName: customer-info
+          serviceName: product-type
           servicePort: 80
