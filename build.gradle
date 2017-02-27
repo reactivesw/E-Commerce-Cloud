@@ -86,7 +86,7 @@ project(':producttype') {
 
 //for all sub projects
 subprojects {
-    if (it.name != 'commons') {
+    if (it.name != 'commons' && it.name != 'message-client') {
         //group name
         group = 'reactivesw'
 
