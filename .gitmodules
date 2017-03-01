@@ -37,3 +37,6 @@
 [submodule "message-client"]
 	path = message-client
 	url = https://github.com/reactivesw/message-client.git
+[submodule "admin-authentication"]
+	path = admin-authentication
+	url = https://github.com/reactivesw/admin-authentication.git
