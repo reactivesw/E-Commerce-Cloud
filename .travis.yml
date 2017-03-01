@@ -1,8 +1,27 @@
 sudo: required
 language: java
 jdk: oraclejdk8
+
+cache:
+  directories:
+    - "$HOME/google-cloud-sdk/"
+
 services:
   - docker
+
+env:
+  global:
+    - GOOGLE_APPLICATION_CREDENTIALS=~/gcloud-service-key.json
+    - PROJECT_NAME_STG=<YOUR_PROJECT_NAME>
+    - CLUSTER_NAME_STG=<YOUR_CLUSTER_NAME>
+    - PROJECT_NAME_PRD=<YOUR_PROJECT_NAME>
+    - CLUSTER_NAME_PRD=<YOUR_CLUSTER_NAME>
+    - CLOUDSDK_COMPUTE_ZONE=<YOUR_GCLOUD_COMPUTE_ZONE>
+    - DOCKER_IMAGE_NAME=appexample
+    - KUBE_DEPLOYMENT_NAME=appexample
+    - KUBE_DEPLOYMENT_CONTAINER_NAME=appexample
+    - NODE_ENV=CI
+
 script:
   - gradle clean
   - gradle wrapper
@@ -22,3 +41,18 @@ after_success:
   docker push reactivesw/payment;
   docker push reactivesw/product;
   docker push reactivesw/product-type;
+
+before_deploy:
+  - if [ ! -d "$HOME/google-cloud-sdk/bin" ]; then rm -rf $HOME/google-cloud-sdk; export CLOUDSDK_CORE_DISABLE_PROMPTS=1; curl https://sdk.cloud.google.com | bash; fi
+  - source /home/travis/google-cloud-sdk/path.bash.inc
+  - gcloud --quiet version
+  - gcloud --quiet components update
+  - gcloud --quiet components beta update
+  - gcloud --quiet components update kubectl
+
+deploy:
+  - provider: script
+    script: ./deploy-staging.sh
+    skip_cleanup: true
+    on:
+      branch: master

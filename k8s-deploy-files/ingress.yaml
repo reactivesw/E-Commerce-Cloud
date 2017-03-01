@@ -30,30 +30,7 @@ spec:
         backend:
           serviceName: customer-authentication
           servicePort: 80
-      - path: /customers/*
-        backend:
-          serviceName: customer-info
-          servicePort: 80
-      - path: /customers
-        backend:
-          serviceName: customer-info
-          servicePort: 80
-      - path: /inventory/*
-        backend:
-          serviceName: inventory
-          servicePort: 80
-      - path: /inventory
-        backend:
-          serviceName: inventory
-          servicePort: 80
-      - path: /orders/*
-        backend:
-          serviceName: order
-          servicePort: 80
-      - path: /orders
-        backend:
-          serviceName: order
-          servicePort: 80
+      paths:
       - path: /payments/*
         backend:
           serviceName: payment
@@ -77,4 +54,29 @@ spec:
       - path: /product-types
         backend:
           serviceName: product-type
+          servicePort: 80
+      paths:
+      - path: /customers/*
+        backend:
+          serviceName: customer-info
+          servicePort: 80
+      - path: /customers
+        backend:
+          serviceName: customer-info
+          servicePort: 80
+      - path: /inventory/*
+        backend:
+          serviceName: inventory
+          servicePort: 80
+      - path: /inventory
+        backend:
+          serviceName: inventory
+          servicePort: 80
+      - path: /orders/*
+        backend:
+          serviceName: order
+          servicePort: 80
+      - path: /orders
+        backend:
+          serviceName: order
           servicePort: 80
