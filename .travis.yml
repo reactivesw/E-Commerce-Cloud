@@ -46,4 +46,4 @@ after_success:
 #    script: ./deploy-staging.sh
 #    skip_cleanup: true
 #    on:
-#      branch: master
+#      branch: masdster
