@@ -11,4 +11,5 @@ include 'payment'
 include 'product'
 include 'producttype'
 include 'message-client'
+include 'api-gateway'
 
