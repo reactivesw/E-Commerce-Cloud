@@ -56,4 +56,5 @@ kubectl apply -f ./order/k8s.yaml
 kubectl apply -f ./payment/k8s.yaml
 kubectl apply -f ./product/k8s.yaml
 kubectl apply -f ./producttype/k8s.yaml
+kubectl apply -f ./api-gateway/k8s.yaml
 echo '=============================finish kubectl create yaml============================'
