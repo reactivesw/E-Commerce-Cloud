@@ -83,6 +83,13 @@ project(':producttype') {
         version = '0.0.1'
     }
 }
+project(':api-gateway') {
+    apply plugin: 'java'
+    jar{
+        baseName = 'api-gateway'
+        version = '0.0.1'
+    }
+}
 
 //for all sub projects
 subprojects {
