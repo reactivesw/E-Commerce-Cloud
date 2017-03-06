@@ -40,3 +40,6 @@
 [submodule "admin-authentication"]
 	path = admin-authentication
 	url = https://github.com/reactivesw/admin-authentication.git
+[submodule "api-gateway"]
+	path = api-gateway
+	url = https://github.com/reactivesw/api-gateway.git
