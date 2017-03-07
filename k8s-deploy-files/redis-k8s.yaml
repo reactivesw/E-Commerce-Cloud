@@ -1,0 +1,35 @@
+kind: List
+apiVersion: v1
+items:
+- kind: Deployment
+  apiVersion: extensions/v1beta1
+  metadata:
+    name: redis
+  spec:
+    replicas: 1
+    template:
+      metadata:
+        labels:
+          name: redis
+      spec:
+        containers:
+        - name: redis
+          image: redis:3.0.7
+          imagePullPolicy: Always
+          ports:
+          - containerPort: 6379
+- kind: Service
+  apiVersion: v1
+  metadata:
+    name: redis
+    labels:
+      name: redis
+  spec:
+    type: NodePort
+    ports:
+    - port: 6379
+      targetPort: 6379
+      nodePort: 31002
+    selector:
+      name: redis
+

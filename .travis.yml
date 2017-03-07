@@ -1,50 +1,50 @@
-sudo: required
-language: java
-jdk: oraclejdk8
+#sudo: required
+#language: java
+#jdk: oraclejdk8
+#
+#cache:
+#  directories:
+#    - "$HOME/google-cloud-sdk/"
 
-cache:
-  directories:
-    - "$HOME/google-cloud-sdk/"
-
-services:
-  - docker
-
-script:
-  - gradle clean
-  - gradle wrapper
-  - ./gradlew build buildDocker --info
+#services:
+#  - docker
+#
+#script:
+#  - gradle clean
+#  - gradle wrapper
+#  - ./gradlew build buildDocker --info
 
 
-after_success:
-- bash <(curl -s https://codecov.io/bash)
-- docker login --username="$DOCKER_USERNAME" --password="$DOCKER_PASSWORD";
-  docker push reactivesw/cart;
-  docker push reactivesw/category;
-  docker push reactivesw/config;
-  docker push reactivesw/customer-authentication;
-  docker push reactivesw/customer-info;
-  docker push reactivesw/inventory;
-  docker push reactivesw/order;
-  docker push reactivesw/payment;
-  docker push reactivesw/product;
-  docker push reactivesw/product-type;
-  docker push reactivesw/api-gateway;
+#after_success:
+#- bash <(curl -s https://codecov.io/bash)
+#- docker login --username="$DOCKER_USERNAME" --password="$DOCKER_PASSWORD";
+#  docker push reactivesw/cart;
+#  docker push reactivesw/category;
+#  docker push reactivesw/config;
+#  docker push reactivesw/customer-authentication;
+#  docker push reactivesw/customer-info;
+#  docker push reactivesw/inventory;
+#  docker push reactivesw/order;
+#  docker push reactivesw/payment;
+#  docker push reactivesw/product;
+#  docker push reactivesw/product-type;
+#  docker push reactivesw/api-gateway;
 
-before_deploy:
-  - if [ ! -d "$HOME/google-cloud-sdk/bin" ]; then rm -rf $HOME/google-cloud-sdk; export CLOUDSDK_CORE_DISABLE_PROMPTS=1; curl https://sdk.cloud.google.com | bash; fi
-  - source /home/travis/google-cloud-sdk/path.bash.inc
-  - echo 'download google cloud sdk'
-  - echo '=============================update kubectl============================='
-  - gcloud --quiet version
-  - gcloud --quiet components update
-  - gcloud --quiet components update kubectl
-  - echo '=============================finish update=============================='
+#before_deploy:
+#  - if [ ! -d "$HOME/google-cloud-sdk/bin" ]; then rm -rf $HOME/google-cloud-sdk; export CLOUDSDK_CORE_DISABLE_PROMPTS=1; curl https://sdk.cloud.google.com | bash; fi
+#  - source /home/travis/google-cloud-sdk/path.bash.inc
+#  - echo 'download google cloud sdk'
+#  - echo '=============================update kubectl============================='
+#  - gcloud --quiet version
+#  - gcloud --quiet components update
+#  - gcloud --quiet components update kubectl
+#  - echo '=============================finish update=============================='
 
-deploy:
-  - provider: script
-    script: sh deploy-staging.sh
-    skip_cleanup: true
-    on:
-      all_branches: true
+#deploy:
+#  - provider: script
+#    script: sh deploy-staging.sh
+#    skip_cleanup: true
+#    on:
+#      all_branches: true
 #      branch: master
 
