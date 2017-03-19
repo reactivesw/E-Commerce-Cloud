@@ -152,16 +152,23 @@ run api-gateway
 
 ```shell
 docker run --name api-gateway -p 8889:8889 \
--e "ZUUL_ROUTES_CART_PATH=/carts/**" \
--e "ZUUL_ROUTES_CART_URL=http://192.168.0.100:8081/" \
--e "ZUUL_ROUTES_CATEGORY_PATH=/categories/**" \
--e "ZUUL_ROUTES_CATEGORY_URL=http://192.168.0.100:8082/" \
--e "ZUUL_ROUTES_AUTH_URL=http://192.168.0.100:8083/" \
--e "ZUUL_ROUTES_CUSTOMER_URL=http://192.168.0.100:8084/" \
--e "ZUUL_ROUTES_INVENTORY_URL=http://192.168.0.100:8085/" \
--e "ZUUL_ROUTES_ORDER_URL=http://192.168.0.100:8086/" \
--e "ZUUL_ROUTES_PAYMENT_URL=http://192.168.0.100:8087/" \
--e "ZUUL_ROUTES_PRODUCT_URL=http://192.168.0.100:8088/" \
--e "ZUUL_ROUTES_PRODUCT-TYPE_URL=http://192.168.0.100:8089/" \
+-e "zuul.routes.cart.path=/carts/**" \
+-e "zuul.routes.cart.url=http://192.168.0.100:8081/" \
+-e "zuul.routes.category.path=/categories/**" \
+-e "zuul.routes.category.url=http://192.168.0.100:8082/" \
+-e "zuul.routes.auth.path=/auth/**" \
+-e "zuul.routes.auth.url=http://192.168.0.100:8083/" \
+-e "zuul.routes.customer.path=/customers/**" \
+-e "zuul.routes.customer.url=http://192.168.0.100:8084/" \
+-e "zuul.routes.inventory.path=/inventory/**" \
+-e "zuul.routes.inventory.url=http://192.168.0.100:8085/" \
+-e "zuul.routes.order.path=/orders/**" \
+-e "zuul.routes.order.url=http://192.168.0.100:8086/" \
+-e "zuul.routes.payment.path=/payments/**" \
+-e "zuul.routes.payment.url=http://192.168.0.100:8087/" \
+-e "zuul.routes.product.path=/products/**" \
+-e "zuul.routes.product.url=http://192.168.0.100:8088/" \
+-e "zuul.routes.product-type.path=/product-types/**" \
+-e "zuul.routes.product-type.url=http://192.168.0.100:8089/" \
 reactivesw/api-gateway:0.0.1
 ```
