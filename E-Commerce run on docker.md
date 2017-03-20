@@ -42,15 +42,6 @@ create database product;
 create database product_type;
 ```
 
-```shell
-# get postgres container id
-docker ps
-
-# get postgres container's IPAddress
-docker inspect {container id} |grep IPAddress
-
-```
-
 ## 5. redis
 
 ```shell
