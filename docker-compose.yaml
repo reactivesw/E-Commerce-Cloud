@@ -1,0 +1,98 @@
+ecommerce-db:
+  image: reactivesw/postgres:0.0.1
+  environment:
+    POSTGRES_PASSWORD: root
+  ports:
+    - "5452:5432"
+redis:
+  image: redis
+category:
+  image: reactivesw/category:0.0.1
+  environment:
+    SPRING_DATASOURCE_URL: jdbc:postgresql://$HOSTADDRESS:5452/category
+  ports:
+    - "8082:8082"
+product-type:
+  image: reactivesw/product-type:0.0.1
+  environment:
+    SPRING_DATASOURCE_URL: jdbc:postgresql://$HOSTADDRESS:5452/product_type
+  ports:
+    - "8089:8089"
+inventory:
+  image: reactivesw/inventory:0.0.1
+  environment: 
+    SPRING_DATASOURCE_URL: jdbc:postgresql://$HOSTADDRESS:5452/inventory
+  ports:
+    - "8085:8085"
+payment:
+  image: reactivesw/payment:0.0.1
+  environment:
+    SPRING_DATASOURCE_URL: jdbc:postgresql://$HOSTADDRESS:5452/payment
+    BRAINTREE_ENVIRONMENT: sanbox
+    BRAINTREE_MERCHANTID: zd4ykzzngrhgnbdv
+    BRAINTREE_PUBLICKEY: j55k9vx4y7kp48yw
+    BRAINTREE_PRIVATEKEY: e993538bfa75c350dac4f3c95b377e26
+  ports:
+    - "8087:8087"
+product:
+  image: reactivesw/product:0.0.1
+  environment:
+    SPRING_DATASOURCE_URL: jdbc:postgresql://$HOSTADDRESS:5452/product
+    PRODUCTTYPE_SERVICE_URI: http://$HOSTADDRESS:8089/
+    INVENTORY_SERVICE_URI: http://$HOSTADDRESS:8085/
+  ports:
+    - "8088:8088"
+customer-info:
+  image: reactivesw/customer-info:0.0.1
+  environment:
+    SPRING_DATASOURCE_URL: jdbc:postgresql://$HOSTADDRESS:5452/customer_info
+  ports:
+    - "8084:8084"
+customer-auth:
+  image: reactivesw/customer-authentication:0.0.1
+  environment:
+    SPRING_DATASOURCE_URL: jdbc:postgresql://$HOSTADDRESS:5452/customer_authentication
+  links:
+    - redis:redis
+  ports:
+    - "8083:8083"
+cart:
+  image: reactivesw/cart:0.0.1
+  environment:
+    SPRING_DATASOURCE_URL: jdbc:postgresql://$HOSTADDRESS:5452/cart
+    PRODUCT_SERVICE_URI: http://$HOSTADDRESS:8088/"
+    CUSTOMER_SERVICE_URI: http://$HOSTADDRESS:8084/"
+  ports:
+    - "8081:8081"
+order:
+  image: reactivesw/order:0.0.1
+  environment:
+    SPRING_DATASOURCE_URL: jdbc:postgresql://$HOSTADDRESS:5452/orders
+    CART_SERVICE_URI: http://$HOSTADDRESS:8081/
+    PAYMENT_SERVICE_URI: http://$HOSTADDRESS:8087/
+    INVENTORY_SERVICE_URI: http://$HOSTADDRESS:8085
+  ports:
+    - "8086:8086"
+api-gateway:
+  image: reactivesw/api-gateway:0.0.1
+  environment:
+    zuul.routes.cart.path: /carts/**"
+    zuul.routes.cart.url: http://$HOSTADDRESS:8081/
+    zuul.routes.category.path: /categories/**
+    zuul.routes.category.url: http://$HOSTADDRESS:8082/
+    zuul.routes.auth.path: /auth/**
+    zuul.routes.auth.url: http://$HOSTADDRESS:8083/
+    zuul.routes.customer.path: /customers/**
+    zuul.routes.customer.url: http://$HOSTADDRESS:8084/
+    zuul.routes.inventory.path: /inventory/**
+    zuul.routes.inventory.url: http://$HOSTADDRESS:8085/
+    zuul.routes.order.path: /orders/**
+    zuul.routes.order.url: http://$HOSTADDRESS:8086/
+    zuul.routes.payment.path: /payments/**
+    zuul.routes.payment.url: http://$HOSTADDRESS:8087/
+    zuul.routes.product.path: /products/**
+    zuul.routes.product.url: http://$HOSTADDRESS:8088/
+    zuul.routes.product-type.path: /product-types/**
+    zuul.routes.product-type.url: http://$HOSTADDRESS:8089/
+  ports:
+    - "8889:8889"
