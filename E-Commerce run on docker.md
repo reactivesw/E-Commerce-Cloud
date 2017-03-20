@@ -51,15 +51,13 @@ docker run --name redis -d redis
 
 This image includes EXPOSE 6379 (the redis port), so standard container linking will make it automatically available to the linked containers (as the following examples illustrate).
 
-## 6. get localhost ip address
+## 6. export localhost ip address
 
 ```shell
 export HOSTADDRESS=`ifconfig | grep -E "([0-9]{1,3}\.){3}[0-9]{1,3}" | grep -v 127.0.0.1 | awk '{ print $2 }' | cut -f2 -d: | head -n1`
 ```
 
-get localhost ip address : ${HOSTADDRESS}
-
-## 6. micro service
+## 7. micro service
 
 ```shell
 docker pull reactivesw/cart:0.0.1
@@ -130,7 +128,7 @@ docker run --name cart -e "SPRING_DATASOURCE_URL=jdbc:postgresql://${HOSTADDRESS
 docker run --name order -e "SPRING_DATASOURCE_URL=jdbc:postgresql://${HOSTADDRESS}:5452/orders" -e "CART_SERVICE_URI=http://${HOSTADDRESS}:8081/" -e "PAYMENT_SERVICE_URI=http://${HOSTADDRESS}:8087/" -e "INVENTORY_SERVICE_URI=http://${HOSTADDRESS}:8085/" -p 8086:8086 reactivesw/order:0.0.1
 ```
 
-## 7. api-gateway
+## 8. api-gateway
 
 ```shell
 docker pull reactivesw/api-gateway:0.0.1
