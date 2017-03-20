@@ -44,7 +44,7 @@ create database product_type;
 
 ```shell
 # get postgres container id
-docker ps 
+docker ps
 
 # get postgres container's IPAddress
 docker inspect {container id} |grep IPAddress
@@ -54,18 +54,19 @@ docker inspect {container id} |grep IPAddress
 ## 5. redis
 
 ```shell
-
 docker pull redis
-
+docker run --name redis -d redis
 ```
+
+This image includes EXPOSE 6379 (the redis port), so standard container linking will make it automatically available to the linked containers (as the following examples illustrate).
 
 ## 6. get localhost ip address
 
 ```shell
-ifconfig | grep -E "([0-9]{1,3}\.){3}[0-9]{1,3}" | grep -v 127.0.0.1 | awk '{ print $2 }' | cut -f2 -d: | head -n1
+export HOSTADDRESS=`ifconfig | grep -E "([0-9]{1,3}\.){3}[0-9]{1,3}" | grep -v 127.0.0.1 | awk '{ print $2 }' | cut -f2 -d: | head -n1`
 ```
 
-get localhost ip address : 192.168.0.100
+get localhost ip address : ${HOSTADDRESS}
 
 ## 6. micro service
 
@@ -85,51 +86,49 @@ docker pull reactivesw/product-type:0.0.1
 ### category
 
 ```shell
-docker run --name category -e "SPRING_DATASOURCE_URL=jdbc:postgresql://192.168.0.100:5452/category" -p 8082:8082 reactivesw/category:0.0.1
+docker run --name category -e "SPRING_DATASOURCE_URL=jdbc:postgresql://${HOSTADDRESS}:5452/category" -p 8082:8082 reactivesw/category:0.0.1
 ```
 
 ### product-type
 
 ```shell
-docker run --name product-type -e "SPRING_DATASOURCE_URL=jdbc:postgresql://192.168.0.100:5452/product_type" -p 8089:8089 reactivesw/product-type:0.0.1
+docker run --name product-type -e "SPRING_DATASOURCE_URL=jdbc:postgresql://${HOSTADDRESS}:5452/product_type" -p 8089:8089 reactivesw/product-type:0.0.1
 ```
 
-### inventory 
+### inventory
 
 ```shell
-docker run --name inventory -e "SPRING_DATASOURCE_URL=jdbc:postgresql://192.168.0.100:5452/inventory" -p 8085:8085 reactivesw/inventory:0.0.1
+docker run --name inventory -e "SPRING_DATASOURCE_URL=jdbc:postgresql://${HOSTADDRESS}:5452/inventory" -p 8085:8085 reactivesw/inventory:0.0.1
 ```
 
 ### payment
+
 ```shell
-docker run --name payment -e "SPRING_DATASOURCE_URL=jdbc:postgresql://192.168.0.100:5452/payment" -e "BRAINTREE_ENVIRONMENT=sanbox" -e "BRAINTREE_MERCHANTID=zd4ykzzngrhgnbdv" -e "BRAINTREE_PUBLICKEY=j55k9vx4y7kp48yw" -e "BRAINTREE_PRIVATEKEY=e993538bfa75c350dac4f3c95b377e26" -p 8087:8087 reactivesw/payment:0.0.1
+docker run --name payment -e "SPRING_DATASOURCE_URL=jdbc:postgresql://${HOSTADDRESS}:5452/payment" -e "BRAINTREE_ENVIRONMENT=sanbox" -e "BRAINTREE_MERCHANTID=zd4ykzzngrhgnbdv" -e "BRAINTREE_PUBLICKEY=j55k9vx4y7kp48yw" -e "BRAINTREE_PRIVATEKEY=e993538bfa75c350dac4f3c95b377e26" -p 8087:8087 reactivesw/payment:0.0.1
 ```
 
 ### product
 
 ```shell
-docker run --name product -e "SPRING_DATASOURCE_URL=jdbc:postgresql://192.168.0.100:5452/product" -e "PRODUCTTYPE_SERVICE_URI=http://192.168.0.100:8089/" -e "INVENTORY_SERVICE_URI=http://192.168.0.100:8085/" -p 8088:8088 reactivesw/product:0.0.1
+docker run --name product -e "SPRING_DATASOURCE_URL=jdbc:postgresql://${HOSTADDRESS}:5452/product" -e "PRODUCTTYPE_SERVICE_URI=http://${HOSTADDRESS}:8089/" -e "INVENTORY_SERVICE_URI=http://${HOSTADDRESS}:8085/" -p 8088:8088 reactivesw/product:0.0.1
 ```
-
-{product type IPAddress} : 172.17.0.4
-{inventory IPAddress}: 172.17.0.5
 
 ### customer-info
 
 ```shell
-docker run --name customer-info -e "SPRING_DATASOURCE_URL=jdbc:postgresql://192.168.0.100:5452/customer_info" -p 8084:8084 reactivesw/customer-info:0.0.1
+docker run --name customer-info -e "SPRING_DATASOURCE_URL=jdbc:postgresql://${HOSTADDRESS}:5452/customer_info" -p 8084:8084 reactivesw/customer-info:0.0.1
 ```
 
 ### customer-authentication
 
 ```shell
-docker run --name customer-auth -e "SPRING_DATASOURCE_URL=jdbc:postgresql://192.168.0.100:5452/customer_authentication" -p 8083:8083 reactivesw/customer-authentication:0.0.1
+docker run --name customer-auth -e "SPRING_DATASOURCE_URL=jdbc:postgresql://${HOSTADDRESS}:5452/customer_authentication" --link redis:redis -p 8083:8083 reactivesw/customer-authentication:0.0.1
 ```
 
 ### cart
 
 ```shell
-docker run --name cart -e "SPRING_DATASOURCE_URL=jdbc:postgresql://192.168.0.100:5452/cart" -e "PRODUCT_SERVICE_URI=http://192.168.0.100:8088/" -e "CUSTOMER_SERVICE_URI=http://192.168.0.100:8084/" -p 8081:8081 reactivesw/cart:0.0.1
+docker run --name cart -e "SPRING_DATASOURCE_URL=jdbc:postgresql://${HOSTADDRESS}:5452/cart" -e "PRODUCT_SERVICE_URI=http://${HOSTADDRESS}:8088/" -e "CUSTOMER_SERVICE_URI=http://${HOSTADDRESS}:8084/" -p 8081:8081 reactivesw/cart:0.0.1
 ```
 
 172.17.0.7
@@ -137,15 +136,13 @@ docker run --name cart -e "SPRING_DATASOURCE_URL=jdbc:postgresql://192.168.0.100
 ### order
 
 ```shell
-docker run --name order -e "SPRING_DATASOURCE_URL=jdbc:postgresql://192.168.0.100:5452/orders" -e "CART_SERVICE_URI=http://192.168.0.100:8081/" -e "PAYMENT_SERVICE_URI=http://192.168.0.100:8087/" -e "INVENTORY_SERVICE_URI=http://192.168.0.100:8085/" -p 8086:8086 reactivesw/order:0.0.1
-
+docker run --name order -e "SPRING_DATASOURCE_URL=jdbc:postgresql://${HOSTADDRESS}:5452/orders" -e "CART_SERVICE_URI=http://${HOSTADDRESS}:8081/" -e "PAYMENT_SERVICE_URI=http://${HOSTADDRESS}:8087/" -e "INVENTORY_SERVICE_URI=http://${HOSTADDRESS}:8085/" -p 8086:8086 reactivesw/order:0.0.1
 ```
 
 ## 7. api-gateway
 
 ```shell
 docker pull reactivesw/api-gateway:0.0.1
-
 ```
 
 run api-gateway
@@ -153,22 +150,22 @@ run api-gateway
 ```shell
 docker run --name api-gateway -p 8889:8889 \
 -e "zuul.routes.cart.path=/carts/**" \
--e "zuul.routes.cart.url=http://192.168.0.100:8081/" \
+-e "zuul.routes.cart.url=http://${HOSTADDRESS}:8081/" \
 -e "zuul.routes.category.path=/categories/**" \
--e "zuul.routes.category.url=http://192.168.0.100:8082/" \
+-e "zuul.routes.category.url=http://${HOSTADDRESS}:8082/" \
 -e "zuul.routes.auth.path=/auth/**" \
--e "zuul.routes.auth.url=http://192.168.0.100:8083/" \
+-e "zuul.routes.auth.url=http://${HOSTADDRESS}:8083/" \
 -e "zuul.routes.customer.path=/customers/**" \
--e "zuul.routes.customer.url=http://192.168.0.100:8084/" \
+-e "zuul.routes.customer.url=http://${HOSTADDRESS}:8084/" \
 -e "zuul.routes.inventory.path=/inventory/**" \
--e "zuul.routes.inventory.url=http://192.168.0.100:8085/" \
+-e "zuul.routes.inventory.url=http://${HOSTADDRESS}:8085/" \
 -e "zuul.routes.order.path=/orders/**" \
--e "zuul.routes.order.url=http://192.168.0.100:8086/" \
+-e "zuul.routes.order.url=http://${HOSTADDRESS}:8086/" \
 -e "zuul.routes.payment.path=/payments/**" \
--e "zuul.routes.payment.url=http://192.168.0.100:8087/" \
+-e "zuul.routes.payment.url=http://${HOSTADDRESS}:8087/" \
 -e "zuul.routes.product.path=/products/**" \
--e "zuul.routes.product.url=http://192.168.0.100:8088/" \
+-e "zuul.routes.product.url=http://${HOSTADDRESS}:8088/" \
 -e "zuul.routes.product-type.path=/product-types/**" \
--e "zuul.routes.product-type.url=http://192.168.0.100:8089/" \
+-e "zuul.routes.product-type.url=http://${HOSTADDRESS}:8089/" \
 reactivesw/api-gateway:0.0.1
 ```
