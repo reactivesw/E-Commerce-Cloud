@@ -76,7 +76,7 @@ order:
 api-gateway:
   image: reactivesw/api-gateway:0.0.1
   environment:
-    zuul.routes.cart.path: /carts/**"
+    zuul.routes.cart.path: /carts/**
     zuul.routes.cart.url: http://$HOSTADDRESS:8081/
     zuul.routes.category.path: /categories/**
     zuul.routes.category.url: http://$HOSTADDRESS:8082/
