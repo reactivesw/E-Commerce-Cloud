@@ -32,3 +32,7 @@ http://localhost:8889/categories/health
 # category, system time: 1488952103544
 
 ```
+
+## 5. stop all micro service
+
+`docker-compose down`
