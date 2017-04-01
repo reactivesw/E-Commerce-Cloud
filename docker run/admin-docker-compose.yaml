@@ -1,0 +1,47 @@
+ecommerce-db:
+  image: reactivesw/postgres:0.0.1
+  environment:
+    POSTGRES_PASSWORD: root
+  ports:
+    - "5452:5432"
+redis:
+  image: redis
+category:
+  image: reactivesw/category:0.0.1
+  environment:
+    SPRING_DATASOURCE_URL: jdbc:postgresql://$HOSTADDRESS:5452/category
+  ports:
+    - "8082:8082"
+product-type:
+  image: reactivesw/product-type:0.0.1
+  environment:
+    SPRING_DATASOURCE_URL: jdbc:postgresql://$HOSTADDRESS:5452/product_type
+  ports:
+    - "8089:8089"
+inventory:
+  image: reactivesw/inventory:0.0.1
+  environment: 
+    SPRING_DATASOURCE_URL: jdbc:postgresql://$HOSTADDRESS:5452/inventory
+  ports:
+    - "8085:8085"
+product:
+  image: reactivesw/product-admin:0.0.1
+  environment:
+    SPRING_DATASOURCE_URL: jdbc:postgresql://$HOSTADDRESS:5452/product
+    PRODUCTTYPE_SERVICE_URI: http://$HOSTADDRESS:8089/
+    INVENTORY_SERVICE_URI: http://$HOSTADDRESS:8085/
+  ports:
+    - "8088:8088"
+api-gateway:
+  image: reactivesw/api-gateway:0.0.1
+  environment:
+    zuul.routes.category.path: /categories/**
+    zuul.routes.category.url: http://$HOSTADDRESS:8082/
+    zuul.routes.inventory.path: /inventory/**
+    zuul.routes.inventory.url: http://$HOSTADDRESS:8085/
+    zuul.routes.product.path: /products/**
+    zuul.routes.product.url: http://$HOSTADDRESS:8088/
+    zuul.routes.product-type.path: /product-types/**
+    zuul.routes.product-type.url: http://$HOSTADDRESS:8089/
+  ports:
+    - "8889:8889"
