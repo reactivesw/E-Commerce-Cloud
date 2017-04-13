@@ -27,7 +27,7 @@ The key is the language key, value is the content.
 When you need multi-language field, just set it as `LocalizedString`, add language key and content to it,
 exmaple:
 
-```json
+```java
 class Category{
   private LocalizedString name; // category name is multi language.
 
