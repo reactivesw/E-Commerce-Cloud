@@ -2,7 +2,7 @@
 
 In our system, multi-language is basic function, many fields set as multi-language(e.g. category's name, description).
 
-## View Model Design
+## 1. View Model Design
 
 For web or other client, multi-language means different language keys and its content.
 When we use json format, multi-language json string is like this:
@@ -37,7 +37,7 @@ class Category{
 }
 ```
 
-## Entity Design
+## 2. Entity Design
 
 We create a entity class named `LocalizedStringValue` to store multi-language in database.
 In `LocalizedStringValue`, there is two field:
