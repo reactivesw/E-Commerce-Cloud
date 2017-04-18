@@ -4,7 +4,6 @@ items:
 - kind: Deployment
   apiVersion: extensions/v1beta1
   metadata:
-    namespace: staging
     name: category
   spec:
     replicas: 1
@@ -15,7 +14,7 @@ items:
       spec:
         containers:
         - name: category
-          image: reactivesw/category:0.0.2
+          image: reactivesw/category:0.0.1
           imagePullPolicy: Always
           ports:
           - containerPort: 80
