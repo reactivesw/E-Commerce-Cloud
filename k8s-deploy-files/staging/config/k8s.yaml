@@ -1,0 +1,51 @@
+kind: List
+apiVersion: v1
+items:
+- apiVersion: extensions/v1beta1
+  kind: Deployment
+  metadata:
+    name: reactivesw-config
+    namespace: staging
+  spec:
+    replicas: 1
+    template:
+      metadata:
+        labels:
+          name: reactivesw-config
+      spec:
+        containers:
+        - name: reactivesw-config
+          image: reactivesw/config:0.0.1
+          imagePullPolicy: Always
+          ports:
+          - containerPort: 80
+          env:
+          - name: spring_cloud_config_server_git_username
+            valueFrom:
+              secretKeyRef:
+                name: reactivesw-secret
+                key: github.username
+          - name: spring_cloud_config_server_git_password
+            valueFrom:
+              secretKeyRef:
+                name: reactivesw-secret
+                key: github.password
+          - name: spring_cloud_config_server_git_uri
+            value: https://github.com/reactivesw/config-files
+          - name: server_port
+            value: "80"
+- kind: Service
+  apiVersion: v1
+  metadata:
+    name: reactivesw-config
+    namespace: staging
+    labels:
+      name: reactivesw-config
+  spec:
+    type: NodePort
+    ports:
+    - port: 80
+      targetPort: 80
+      nodePort: 30201
+    selector:
+      name: reactivesw-config

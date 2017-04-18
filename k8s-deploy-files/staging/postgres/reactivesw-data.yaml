@@ -1,0 +1,48 @@
+kind: List
+apiVersion: v1
+items:
+- kind: Deployment
+  apiVersion: extensions/v1beta1
+  metadata:
+    name: reactivesw-data
+    namespace: staging
+  spec:
+    replicas: 1
+    template:
+      metadata:
+        labels:
+          name: reactivesw-data
+      spec:
+        containers:
+        - name: reactivesw-data
+          image: reactivesw/postgres:0.0.1
+          imagePullPolicy: Always
+          ports:
+          - containerPort: 5432
+          env:
+          - name: MAX_CONNECTIONS
+            value: "500"
+          - name: POSTGRES_USER
+            valueFrom:
+              secretKeyRef:
+                name: reactivesw-secret
+                key: postgres.username
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: reactivesw-secret
+                key: postgres.password
+- kind: Service
+  apiVersion: v1
+  metadata:
+    name: reactivesw-data
+    namespace: staging
+    labels:
+      name: reactivesw-data
+  spec:
+    type: NodePort
+    ports:
+    - port: 5432
+      nodePort: 30200
+    selector: 
+      name: reactivesw-data

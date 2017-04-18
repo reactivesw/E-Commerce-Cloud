@@ -31,7 +31,6 @@ items:
     ports:
     - port: 6379
       targetPort: 6379
-      nodePort: 31002
+      nodePort: 30212
     selector:
       name: redis
-

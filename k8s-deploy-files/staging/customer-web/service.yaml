@@ -1,0 +1,15 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: customer-web
+  namespace: staging
+  labels:
+    name: customer-web
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 3000
+      nodePort: 30213
+  selector:
+    name: customer-web
