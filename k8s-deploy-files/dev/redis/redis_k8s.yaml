@@ -5,6 +5,7 @@ items:
   apiVersion: extensions/v1beta1
   metadata:
     name: redis
+    namespace: dev
   spec:
     replicas: 1
     template:
@@ -22,6 +23,7 @@ items:
   apiVersion: v1
   metadata:
     name: redis
+    namespace: dev
     labels:
       name: redis
   spec:
@@ -29,7 +31,6 @@ items:
     ports:
     - port: 6379
       targetPort: 6379
-      nodePort: 31002
+      nodePort: 30112
     selector:
       name: redis
-
