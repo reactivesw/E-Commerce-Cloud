@@ -12,7 +12,7 @@ e-commerce cloud.
 
 - config：config-server(git) + k8s(secret)
 - service discovery: k8s(DNS)
-- load balance: k8s(spring zuul)
+- load balance: spring zuul
 - API gateway: k8s
 - service security: Intranet + token, no center
 - centralized logging: k8s(EFK)
