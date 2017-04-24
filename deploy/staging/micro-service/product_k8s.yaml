@@ -1,0 +1,64 @@
+kind: List
+apiVersion: v1
+items:
+- kind: Deployment
+  apiVersion: extensions/v1beta1
+  metadata:
+    namespace: staging
+    name: product
+  spec:
+    replicas: 1
+    template:
+      metadata:
+        labels:
+          name: product
+      spec:
+        containers:
+        - name: product
+          image: reactivesw/product:0.0.4
+          imagePullPolicy: Always
+          ports:
+          - containerPort: 80
+          env:
+          - name: server_port
+            value: "80"
+          - name: spring_datasource_url
+            value: jdbc:postgresql://reactivesw-data/product
+          - name: spring_cloud_config_uri
+            value: http://reactivesw-config
+          - name: producttype_service_uri
+            value: http://product-type/
+          - name: inventory_service_uri
+            value: http://inventory/
+          - name: io_reactivesw_message_topic_categorydeleted_subscriber
+            value: staging-product-category-deleted
+          - name: spring_datasource_username
+            valueFrom:
+              secretKeyRef:
+                name: reactivesw-secret
+                key: postgres.username
+          - name: spring_datasource_password
+            valueFrom:
+              secretKeyRef:
+                name: reactivesw-secret
+                key: postgres.password
+          - name: jwt_secret
+            valueFrom:
+              secretKeyRef:
+                name: reactivesw-secret
+                key: jwt.secret
+- kind: Service
+  apiVersion: v1
+  metadata:
+    name: product
+    namespace: staging
+    labels:
+      name: product
+  spec:
+    type: NodePort
+    ports:
+    - port: 80
+      targetPort: 80
+      nodePort: 30209
+    selector:
+      name: product

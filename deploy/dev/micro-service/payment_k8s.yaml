@@ -4,7 +4,7 @@ items:
 - kind: Deployment
   apiVersion: extensions/v1beta1
   metadata:
-    namespace: staging
+    namespace: dev
     name: payment
   spec:
     replicas: 1
@@ -15,7 +15,7 @@ items:
       spec:
         containers:
         - name: payment
-          image: reactivesw/payment:0.0.1
+          image: reactivesw/payment:0.0.4
           imagePullPolicy: Always
           ports:
           - containerPort: 80
@@ -26,6 +26,12 @@ items:
             value: jdbc:postgresql://reactivesw-data/payment
           - name: spring_cloud_config_uri
             value: http://reactivesw-config
+          - name: io_reactivesw_message_topic_ordercreated_subscriber
+            value: dev-payment-order-pay
+          - name: io_reactivesw_message_topic_paymentpayed_name
+            value: reactivesw-dev-payment-payed
+          - name: io_reactivesw_message_topic_paymentpayed_version
+            value: "1"
           - name: braintree_environment
             valueFrom:
               secretKeyRef:
@@ -55,7 +61,7 @@ items:
   apiVersion: v1
   metadata:
     name: payment
-    namespace: staging
+    namespace: dev
     labels:
       name: payment
   spec:

@@ -5,17 +5,17 @@ items:
   apiVersion: extensions/v1beta1
   metadata:
     namespace: staging
-    name: customer-authentication
+    name: product-type
   spec:
     replicas: 1
     template:
       metadata:
         labels:
-          name: customer-authentication
+          name: product-type
       spec:
         containers:
-        - name: customer-authentication
-          image: reactivesw/customer-authentication:0.0.2
+        - name: product-type
+          image: reactivesw/product-type:0.0.4
           imagePullPolicy: Always
           ports:
           - containerPort: 80
@@ -23,11 +23,19 @@ items:
           - name: server_port
             value: "80"
           - name: spring_datasource_url
-            value: jdbc:postgresql://reactivesw-data/customer_authentication
+            value: jdbc:postgresql://reactivesw-data/product_type
           - name: spring_cloud_config_uri
             value: http://reactivesw-config
-          - name: spring_redis_host
-            value: redis
+          - name: spring_datasource_username
+            valueFrom:
+              secretKeyRef:
+                name: reactivesw-secret
+                key: postgres.username
+          - name: spring_datasource_password
+            valueFrom:
+              secretKeyRef:
+                name: reactivesw-secret
+                key: postgres.password
           - name: jwt_secret
             valueFrom:
               secretKeyRef:
@@ -36,15 +44,15 @@ items:
 - kind: Service
   apiVersion: v1
   metadata:
-    name: customer-authentication
+    name: product-type
     namespace: staging
     labels:
-      name: customer-authentication
+      name: product-type
   spec:
     type: NodePort
     ports:
     - port: 80
       targetPort: 80
-      nodePort: 30204
+      nodePort: 30210
     selector:
-      name: customer-authentication
+      name: product-type
