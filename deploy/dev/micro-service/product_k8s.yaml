@@ -4,18 +4,18 @@ items:
 - kind: Deployment
   apiVersion: extensions/v1beta1
   metadata:
-    namespace: staging
-    name: product-type
+    namespace: dev
+    name: product
   spec:
     replicas: 1
     template:
       metadata:
         labels:
-          name: product-type
+          name: product
       spec:
         containers:
-        - name: product-type
-          image: reactivesw/product-type:0.0.1
+        - name: product
+          image: reactivesw/product:0.0.4
           imagePullPolicy: Always
           ports:
           - containerPort: 80
@@ -23,9 +23,15 @@ items:
           - name: server_port
             value: "80"
           - name: spring_datasource_url
-            value: jdbc:postgresql://reactivesw-data/product_type
+            value: jdbc:postgresql://reactivesw-data/product
           - name: spring_cloud_config_uri
             value: http://reactivesw-config
+          - name: producttype_service_uri
+            value: http://product-type/
+          - name: inventory_service_uri
+            value: http://inventory/
+          - name: io_reactivesw_message_topic_categorydeleted_subscriber
+            value: dev-product-category-deleted
           - name: spring_datasource_username
             valueFrom:
               secretKeyRef:
@@ -44,15 +50,15 @@ items:
 - kind: Service
   apiVersion: v1
   metadata:
-    name: product-type
-    namespace: staging
+    name: product
+    namespace: dev
     labels:
-      name: product-type
+      name: product
   spec:
     type: NodePort
     ports:
     - port: 80
       targetPort: 80
-      nodePort: 30210
+      nodePort: 30209
     selector:
-      name: product-type
+      name: product

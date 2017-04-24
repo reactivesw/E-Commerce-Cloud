@@ -1,0 +1,74 @@
+kind: List
+apiVersion: v1
+items:
+- kind: Deployment
+  apiVersion: extensions/v1beta1
+  metadata:
+    namespace: staging
+    name: payment
+  spec:
+    replicas: 1
+    template:
+      metadata:
+        labels:
+          name: payment
+      spec:
+        containers:
+        - name: payment
+          image: reactivesw/payment:0.0.4
+          imagePullPolicy: Always
+          ports:
+          - containerPort: 80
+          env:
+          - name: server_port
+            value: "80"
+          - name: spring_datasource_url
+            value: jdbc:postgresql://reactivesw-data/payment
+          - name: spring_cloud_config_uri
+            value: http://reactivesw-config
+          - name: io_reactivesw_message_topic_ordercreated_subscriber
+            value: staging-payment-order-pay
+          - name: io_reactivesw_message_topic_paymentpayed_name
+            value: reactivesw-staging-payment-payed
+          - name: io_reactivesw_message_topic_paymentpayed_version
+            value: "1"
+          - name: braintree_environment
+            valueFrom:
+              secretKeyRef:
+                name: reactivesw-secret
+                key: braintree.environment
+          - name: braintree_merchantid
+            valueFrom:
+              secretKeyRef:
+                name: reactivesw-secret
+                key: braintree.merchantid
+          - name: braintree_privatekey
+            valueFrom:
+              secretKeyRef:
+                name: reactivesw-secret
+                key: braintree.privatekey
+          - name: braintree_publickey
+            valueFrom:
+              secretKeyRef:
+                name: reactivesw-secret
+                key: braintree.publickey
+          - name: jwt_secret
+            valueFrom:
+              secretKeyRef:
+                name: reactivesw-secret
+                key: jwt.secret
+- kind: Service
+  apiVersion: v1
+  metadata:
+    name: payment
+    namespace: staging
+    labels:
+      name: payment
+  spec:
+    type: NodePort
+    ports:
+    - port: 80
+      targetPort: 80
+      nodePort: 30208
+    selector:
+      name: payment

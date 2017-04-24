@@ -38,7 +38,7 @@ items:
   apiVersion: v1
   metadata:
     name: reactivesw-config
-    namespace: staging
+    namespace: dev
     labels:
       name: reactivesw-config
   spec:

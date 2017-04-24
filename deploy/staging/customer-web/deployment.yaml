@@ -12,7 +12,7 @@ spec:
     spec:
       containers:
         - name: customer-web
-          image: reactivesw/customer-web:0.0.4
+          image: reactivesw/customer-web:0.0.5
           imagePullPolicy: Always
           ports:
             - containerPort: 3000

@@ -1,0 +1,62 @@
+kind: List
+apiVersion: v1
+items:
+- kind: Deployment
+  apiVersion: extensions/v1beta1
+  metadata:
+    name: category
+    namespace: dev
+  spec:
+    replicas: 1
+    template:
+      metadata:
+        labels:
+          name: category
+      spec:
+        containers:
+        - name: category
+          image: reactivesw/category:0.0.4
+          imagePullPolicy: Always
+          ports:
+          - containerPort: 80
+          env:
+          - name: server_port
+            value: "80"
+          - name: spring_datasource_url
+            value: jdbc:postgresql://reactivesw-data/category
+          - name: spring_cloud_config_uri
+            value: http://reactivesw-config
+          - name: io_reactivesw_message_topic_deletecategory_name
+            value: reactivesw-dev-category-deleted
+          - name: io_reactivesw_message_topic_deletecategory_version
+            value: "1"
+          - name: spring_datasource_username
+            valueFrom:
+              secretKeyRef:
+                name: reactivesw-secret
+                key: postgres.username
+          - name: spring_datasource_password
+            valueFrom:
+              secretKeyRef:
+                name: reactivesw-secret
+                key: postgres.password
+          - name: jwt_secret
+            valueFrom:
+              secretKeyRef:
+                name: reactivesw-secret
+                key: jwt.secret
+- kind: Service
+  apiVersion: v1
+  metadata:
+    name: category
+    namespace: dev
+    labels:
+      name: category
+  spec:
+    type: NodePort
+    ports:
+    - port: 80
+      targetPort: 80
+      nodePort: 30203
+    selector:
+      name: category

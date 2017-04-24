@@ -4,18 +4,18 @@ items:
 - kind: Deployment
   apiVersion: extensions/v1beta1
   metadata:
-    namespace: staging
-    name: cart
+    namespace: dev
+    name: product-type
   spec:
     replicas: 1
     template:
       metadata:
         labels:
-          name: cart
+          name: product-type
       spec:
         containers:
-        - name: cart
-          image: reactivesw/cart:0.0.1
+        - name: product-type
+          image: reactivesw/product-type:0.0.4
           imagePullPolicy: Always
           ports:
           - containerPort: 80
@@ -23,11 +23,19 @@ items:
           - name: server_port
             value: "80"
           - name: spring_datasource_url
-            value: jdbc:postgresql://reactivesw-data/cart
+            value: jdbc:postgresql://reactivesw-data/product_type
           - name: spring_cloud_config_uri
             value: http://reactivesw-config
-          - name: product_service_uri
-            value: http://product/
+          - name: spring_datasource_username
+            valueFrom:
+              secretKeyRef:
+                name: reactivesw-secret
+                key: postgres.username
+          - name: spring_datasource_password
+            valueFrom:
+              secretKeyRef:
+                name: reactivesw-secret
+                key: postgres.password
           - name: jwt_secret
             valueFrom:
               secretKeyRef:
@@ -36,15 +44,15 @@ items:
 - kind: Service
   apiVersion: v1
   metadata:
-    name: cart
-    namespace: staging
+    name: product-type
+    namespace: dev
     labels:
-      name: cart
+      name: product-type
   spec:
     type: NodePort
     ports:
     - port: 80
       targetPort: 80
-      nodePort: 30202
+      nodePort: 30210
     selector:
-      name: cart
+      name: product-type
