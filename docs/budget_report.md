@@ -45,11 +45,13 @@
 硬盘：log＋Persistent Volumes
 网络：load balance + egress
 
-各项的预算：
-vCPU：$100
-instance Core: $20
-instance Ram: $5
-硬盘: $10
-load balance: $25
-egress: 暂时无法估算
+各项的预算:
+
+* vCPU：$100
+* instance Core: $20
+* instance Ram: $5
+* 硬盘: $10
+* load balance: $25
+* egress: 暂时无法估算
+
 总计：¥160
