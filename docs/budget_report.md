@@ -41,9 +41,9 @@
 
 对每一个project，使用的收费服务主要包括:
 
-机器：vCPU ＋ instance Core ＋ instance Ram
-硬盘：log＋Persistent Volumes
-网络：load balance + egress
+* 机器：vCPU ＋ instance Core ＋ instance Ram
+* 硬盘：log＋Persistent Volumes
+* 网络：load balance + egress
 
 各项的预算:
 
