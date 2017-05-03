@@ -3,7 +3,7 @@
 1. namespace
 
 ```shell
-kubectl create -f namespace-dev.yaml
+kubectl create -f namespace_dev.yaml
 ```
 
 2. secrets
@@ -19,7 +19,7 @@ kubectl create -f secrets/secrets.yaml
 ```shell
 kubectl create -f persistent-volume/data_pv.yaml
 kubectl create -f persistent-volume/data_pvc.yaml
-kubectl create -f postgres/reactivesw-data.yaml
+kubectl create -f postgres/reactivesw_data.yaml
 ```
 
 4. config server

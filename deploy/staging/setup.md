@@ -3,7 +3,7 @@
 1. namespace
 
 ```shell
-kubectl create -f namespace-staging.yaml
+kubectl create -f namespace_staging.yaml
 ```
 
 2. secrets
@@ -17,7 +17,7 @@ kubectl create -f secrets/secrets.yaml
 3. database
 
 ```shell
-kubectl create -f postgres/reactivesw-data.yaml
+kubectl create -f postgres/reactivesw_data.yaml
 ```
 
 4. config server
