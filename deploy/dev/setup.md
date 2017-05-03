@@ -17,6 +17,8 @@ kubectl create -f secrets/secrets.yaml
 3. database
 
 ```shell
+kubectl create -f persistent-volume/data_pv.yaml
+kubectl create -f persistent-volume/data_pvc.yaml
 kubectl create -f postgres/reactivesw-data.yaml
 ```
 

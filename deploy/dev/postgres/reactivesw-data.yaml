@@ -19,9 +19,14 @@ items:
           imagePullPolicy: Always
           ports:
           - containerPort: 5432
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgres-data
           env:
           - name: MAX_CONNECTIONS
             value: "500"
+          - name: PGDATA
+            value: /var/lib/postgresql/data/pgdata
           - name: POSTGRES_USER
             valueFrom:
               secretKeyRef:
@@ -32,6 +37,10 @@ items:
               secretKeyRef:
                 name: reactivesw-secret
                 key: postgres.password
+        volumes:
+          - name: postgres-data
+            persistentVolumeClaim:
+              claimName: pg-data-claim
 - kind: Service
   apiVersion: v1
   metadata:
