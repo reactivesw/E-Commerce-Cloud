@@ -1,15 +1,7 @@
-- [系统预算报告](#org8ee36c3)
-  - [正在使用的需要付费的服务/资源](#org127e062)
-  - [相应资源的报价](#orgf90294a)
-  - [计算月预算](#org9ecd554)
-
-
-<a id="org8ee36c3"></a>
 
 # 系统预算报告
 
 
-<a id="org127e062"></a>
 
 ## 正在使用的需要付费的服务/资源
 
@@ -20,13 +12,13 @@
 -   Internet egress
 
 
-<a id="orgf90294a"></a>
 
 ## 相应资源的报价
 
 -   Custom machine types
     
     | item   | price(USD)            |
+	|----|----|
     | vCPU   | $16.96/vCPU month     |
     | Memory | $2.35/GB month        |
     | vCPU   | $0.033174 / vCPU hour |
@@ -36,6 +28,7 @@
 egress
 
 | Monthly Usage | Network(Egress)worldwide excluding China,Australia | Network(Egress)China | Network(Egress)Australia |
+|----|----|----|----|
 | 0-1TB         | $0.12(per Gb)                                      | $0.23(per Gb)        | $0.19                    |
 | 1-10TB        | $0.11(per Gb)                                      | $0.22(per Gb)        | $0.18                    |
 | 10+TB         | $0.08(per Gb)                                      | $0.15(per Gb)        | $0.15                    |
@@ -43,12 +36,14 @@ egress
 general network pricing
 
 | General type                                       | price |
+|----|----|
 | Egress\* between zones in the same region (per GB) | $0.01 |
 | Egress between regions within the US (per GB)      | $0.01 |
 
 -   Storage disk pricing
     
     | Type                       | Price(Per GB/month) |
+	|----|----|
     | Standard provisioned space | $ 0.040             |
     | SSD provisioned space      | $ 0.170             |
     | Snapshot storage           | $ 0.026             |
@@ -56,6 +51,7 @@ general network pricing
 -   Load balancing and protocol forwarding
 
 | Item                           | Price per Unit($) | Pricing Unit |
+|----|----|----|
 | First 5 forwarding rules       | $ 0.025           | Per Hour     |
 | Per additional forwarding rule | $ 0.010           | Per hour     |
 | Data processed                 | $ 0.008           | Per GB       |
@@ -63,13 +59,13 @@ general network pricing
 -   Cloud pub/sub service
     
     | Monthly data volume | Price Per GB |
+	|----|----|
     | First 10Gb          | $0.00        |
     | Next 50TB           | $0.06        |
     | Next 100TB          | $0.05        |
     | Beyond 150TB        | $0.04        |
 
 
-<a id="org9ecd554"></a>
 
 ## 计算月预算
 
