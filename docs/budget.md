@@ -76,14 +76,12 @@ balancing 就是根据请求的小时数计算费用，但是一天中请求的�
 以也只能根据以往数据进行估算。
 
 ### 3.1.  Static 7x24
-
     假定这些服务都是 7x24 运行的:
     -   CPU (customer machine type vCPU)x3=3x24x30x0.033174~=71.6
     -   RAM (customer machine type Memory)x4x3=3x4x24x30x0.004446~=38.41
     -   Disk standard space x 300GB=300x0.04=12
 
 ### 3.2.  Dynamic
-
     -   Load balancing 负载均衡 5个以内的规则是每小时 $0.025,如果超出5 个规则，
         则每个规则每小时按 $0.01 计算:
 		+ 5个规则一个月的服务时间估算得约 700 小时：700x0.025~=17.5
@@ -99,7 +97,6 @@ balancing 就是根据请求的小时数计算费用，但是一天中请求的�
         是免费， 在此以后，按阶段收费。估算得，现阶段每个月 publish/subscribe 产
         生的流量大概是0.040TB (但是这个数字肯定会随着启用 event 服务的增多而增
         加). 因为现在 (2017-05) 刚启用 pub/sub 服务，所以最初的 10GB 免费:
-        
         +   first month 
 		(0.04x1024-10)x0.06~=1.8
         
