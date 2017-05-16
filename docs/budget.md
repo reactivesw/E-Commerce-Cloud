@@ -25,7 +25,7 @@
     | Memory | $0.004446 / GB hour   |
 -   Network
 
-	egress
+	+ egress
 
 	| Monthly Usage | Network(Egress)worldwide excluding China,Australia | Network(Egress)China | Network(Egress)Australia |
 	|----|----|----|----|
@@ -33,7 +33,7 @@
 	| 1-10TB        | $0.11(per Gb)                                      | $0.22(per Gb)        | $0.18                    |
 	| 10+TB         | $0.08(per Gb)                                      | $0.15(per Gb)        | $0.15                    |
 
-	general network pricing
+	+ general network pricing
 
 	| General type                                       | price |
 	|----|----|
@@ -85,23 +85,29 @@ balancing 就是根据请求的小时数计算费用，但是一天中请求的�
 
 ### 3.2. 实时开销
 
-- Load balancing 负载均衡 5个以内的规则是每小时 $0.025,如果超出5 个规则，
-	则每个规则每小时按 $0.01 计算:
+- Load balancing 
+
+	负载均衡 5个以内的规则是每小时 $0.025,如果超出5 个规则，则每个规则每小时按
+	$0.01 计算:
 	1. 5个规则一个月的服务时间估算得约 700 小时：700x0.025~=17.5
 	2. 额外的3个规则一个月的服务时间估算得约等于共 1200 小时: 1200x0.01~=12.0
 
-- Egress 流量的出口除了到中国和澳洲是不同价格以外，其他都是统一价格:
+- Egress 
+
+	流量的出口除了到中国和澳洲是不同价格以外，其他都是统一价格:
 	1. 到中国的流量费用是每GB $0.023; 而每个月从美国到中国的流量估算约为
 		0.1GB: 0.1x 0.23~=0.023
 	2. 同一区域的费用是每 GB $0.01; 而每个月同一区域产生的流量约为 7GB: 7x0.01~=0.07
 
-- Google cloud platform 提供的 Cloud publish/subscribe 服务开始使用的 10GB
-	是免费， 在此以后，按阶段收费。估算得，现阶段每个月 publish/subscribe 产
-	生的流量大概是0.040TB (但是这个数字肯定会随着启用 event 服务的增多而增
-	加). 因为现在 (2017-05) 刚启用 pub/sub 服务，所以最初的 10GB 免费:
+- Cloud pub/sub service 
+
+	Google cloud platform 提供的 Cloud publish/subscribe 服务开始使用的 10GB是免
+	费， 在此以后，按阶段收费。估算得，现阶段每个月 publish/subscribe 产生的流量
+	大概是0.040TB (但是这个数字肯定会随着启用 event 服务的增多而增加). 因为现在
+	(2017-05) 刚启用 pub/sub 服务，所以最初的 10GB 免费:
 
 	1. first month 
-(0.04x1024-10)x0.06~=1.8
+	(0.04x1024-10)x0.06~=1.8
 
 	2. later (Next 50TB)
 	0.04x1024x0.06~=2.4576
