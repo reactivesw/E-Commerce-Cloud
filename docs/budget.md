@@ -75,13 +75,17 @@ balancing 就是根据请求的小时数计算费用，但是一天中请求的�
 通过以往的数据进行估算。其次，Egress 所产生的流量费用情况也是不固定的， 所
 以也只能根据以往数据进行估算。
 
-### 3.1.  Static 7x24
+### 3.1. Static 7x24
+
+``
     假定这些服务都是 7x24 运行的:
     - CPU (customer machine type vCPU)x3=3x24x30x0.033174~=71.6
     - RAM (customer machine type Memory)x4x3=3x4x24x30x0.004446~=38.41
     - Disk standard space x 300GB=300x0.04=12
 
-### 3.2.  Dynamic
+### 3.2. Dynamic
+
+``
     - Load balancing 负载均衡 5个以内的规则是每小时 $0.025,如果超出5 个规则，
       则每个规则每小时按 $0.01 计算:
 		1. 5个规则一个月的服务时间估算得约 700 小时：700x0.025~=17.5
