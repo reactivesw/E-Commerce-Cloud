@@ -32,6 +32,8 @@ items:
             value: http://inventory/
           - name: io_reactivesw_message_topic_categorydeleted_subscriber
             value: dev-product-category-deleted
+          - name: io_reactivesw_message_google_project_id
+            value: reactivesw-project2
           - name: spring_datasource_username
             valueFrom:
               secretKeyRef:
@@ -59,6 +61,7 @@ items:
     ports:
     - port: 80
       targetPort: 80
-      nodePort: 30209
+      nodePort: 30109
     selector:
       name: product
+

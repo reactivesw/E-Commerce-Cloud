@@ -37,7 +37,7 @@ items:
           - name: payment_service_uri
             value: http://payment/
           - name: io_reactivesw_message_google_project_id
-            value: reactivesw-project
+            value: reactivesw-project2
           - name: io_reactivesw_message_topic_ordercreated_name
             value: reactivesw-dev-order-created
           - name: io_reactivesw_message_topic_ordercreated_version
@@ -63,6 +63,7 @@ items:
     ports:
     - port: 80
       targetPort: 80
-      nodePort: 30207
+      nodePort: 30107
     selector:
       name: order
+

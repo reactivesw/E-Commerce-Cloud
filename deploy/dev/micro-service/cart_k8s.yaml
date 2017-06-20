@@ -15,7 +15,7 @@ items:
       spec:
         containers:
         - name: cart
-          image: reactivesw/cart:0.0.4
+          image: reactivesw/cart:0.0.5
           imagePullPolicy: Always
           ports:
           - containerPort: 80
@@ -32,6 +32,8 @@ items:
             value: reactivesw-dev-customer-login
           - name: io_reactivesw_message_topic_signin_version
             value: "1"
+          - name: io_reactivesw_message_google_project_id
+            value: reactivesw-project2
           - name: io_reactivesw_message_topic_signin_subscriber
             value: dev-customer-cart-merge
           - name: jwt_secret
@@ -51,6 +53,6 @@ items:
     ports:
     - port: 80
       targetPort: 80
-      nodePort: 30202
+      nodePort: 30102
     selector:
       name: cart

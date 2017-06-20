@@ -15,7 +15,7 @@ items:
       spec:
         containers:
         - name: customer-info
-          image: reactivesw/customer-info:0.0.4
+          image: reactivesw/customer-info:0.0.5
           imagePullPolicy: Always
           ports:
           - containerPort: 80
@@ -40,6 +40,6 @@ items:
     ports:
     - port: 80
       targetPort: 80
-      nodePort: 30205
+      nodePort: 30105
     selector:
       name: customer-info

@@ -6,6 +6,7 @@ items:
   metadata:
     namespace: dev
     name: customer-authentication
+    namespace: dev
   spec:
     replicas: 1
     template:
@@ -15,7 +16,7 @@ items:
       spec:
         containers:
         - name: customer-authentication
-          image: reactivesw/customer-authentication:0.0.4
+          image: reactivesw/customer-authentication:0.0.4-dev
           imagePullPolicy: Always
           ports:
           - containerPort: 80
@@ -32,6 +33,8 @@ items:
             value: reactivesw-dev-customer-login
           - name: io_reactivesw_message_topic_signin_version
             value: "1"
+          - name: io_reactivesw_message_google_project_id
+            value: reactivesw-project2
           - name: jwt_secret
             valueFrom:
               secretKeyRef:
@@ -49,6 +52,7 @@ items:
     ports:
     - port: 80
       targetPort: 80
-      nodePort: 30204
+      nodePort: 30104
     selector:
       name: customer-authentication
+

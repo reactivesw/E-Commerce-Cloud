@@ -32,6 +32,8 @@ items:
             value: reactivesw-dev-payment-payed
           - name: io_reactivesw_message_topic_paymentpayed_version
             value: "1"
+          - name: io_reactivesw_message_google_project_id
+            value: reactivesw-project2
           - name: braintree_environment
             valueFrom:
               secretKeyRef:
@@ -57,6 +59,11 @@ items:
               secretKeyRef:
                 name: reactivesw-secret
                 key: jwt.secret
+          - name: aes_secret_key
+            valueFrom:
+              secretKeyRef:
+                name: reactivesw-secret
+                key: aes.secret.key
 - kind: Service
   apiVersion: v1
   metadata:
@@ -69,6 +76,6 @@ items:
     ports:
     - port: 80
       targetPort: 80
-      nodePort: 30208
+      nodePort: 30108
     selector:
       name: payment
