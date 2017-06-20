@@ -113,9 +113,9 @@ post config to url: `http://{api-gateway url}/payments/config`
 
 ```markdown
 {
-  "environment": "sanbox",
-  "merchantId": "zd4ykzzngrhgnbdv",
-  "publicKey": "j55k9vx4y7kp48yw",
-  "privateKey": "e993538bfa75c350dac4f3c95b377e26"
+  "environment": "",
+  "merchantId": "",
+  "publicKey": "",
+  "privateKey": ""
 }
 ```
